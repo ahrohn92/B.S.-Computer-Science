@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+
+<!--
+   This page is an example of implementing hierarchical transformation
+   for 2D graphics in WebGL.  The transforms are implemented as objects
+   of type AffineTransform2D.  The class is defined in AffineTransform2D.js.
+-->
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CMSC 430: Week 7 Discussion - Andrew H. Rohn</title>
+
+<script src="AffineTransform2D.js"></script>
+
+<script>
+
+"use strict";
+
+var vertexShaderSource =
+       "attribute vec2 a_coords;\n" +
+       "uniform mat3 u_transform;\n" +
+       "void main() {\n" +
+       "   vec3 transformedCoords = u_transform * vec3(a_coords,1.0);\n" +
+       "   gl_Position = vec4(transformedCoords.xy, 0.0, 1.0);\n" +
+       "}\n";
+
+var fragmentShaderSource =
+       "precision mediump float;\n" +
+       "uniform vec3 u_color;\n" +
+       "uniform float u_alpha;\n" +
+       "void main() {\n" +
+       "   gl_FragColor = vec4(u_color, u_alpha);\n" +
+       "}\n";
+
+var gl;  // The WebGL graphics context.
+
+var a_coords_loc;    // Location for "a_coords" attribute.
+var u_transform_loc; // Location for "u_transform" uniform.
+var u_color_loc;     // Location for "u_color" uniform.
+var u_alpha_loc;         //location for "u_alpha" uniform.
+
+ // Buffers holding coordinates for basic objects.
+var diskCoordsVBO;
+
+
+var animating = false;  // Set to true when the animation is running.
+var framenumber = 0;    // Current frame number in the animation.
+
+
+/*----------------------- Current transform and transform stack --------------*/
+
+var transform = new AffineTransform2D();  // Current AffineTransform2D, initially the identity.
+
+var transformStack = [];  // An array to serve as the transform stack.
+
+/**
+ *  Push a copy of the current transform onto the transform stack.
+ */
+function pushTransform() {
+    transformStack.push( new AffineTransform2D(transform) );
+}
+
+/**
+ *  Remove the top item from the transform stack, and set it to be the current
+ *  transform.  If the stack is empty, nothing is done (and no error is generated).
+ */
+function popTransform() {
+    if (transformStack.length > 0) {
+        transform = transformStack.pop();
+    }
+}
+
+
+/*---------------------------- routine for drawing five basic objects -------------*/
+
+
+/**
+ *  Draws a filled circle of radius 1 centered at the origin.
+ *  Uses the current color.
+ */
+function filledCircle() {
+    gl.uniformMatrix3fv(u_transform_loc, false, transform.getMat3());
+    gl.bindBuffer(gl.ARRAY_BUFFER, diskCoordsVBO);
+    gl.vertexAttribPointer(a_coords_loc, 2, gl.FLOAT, false, 0, 0);
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, 32);
+}
+
+
+/*---------------------- common WebGL routines ------------------------*/
+
+/**
+ *  Draws the content of the canvas, consisting of three hierarchical objects.
+ *  Uses the default coordinate system in which x and y range from -1.0 to 1.0.
+ *  Modeling transformations are used to scale the objects and position them
+ *  on the canvas.
+ */
+function draw() { 
+
+    gl.clearColor(0,0,0,0); 
+    gl.clear(gl.COLOR_BUFFER_BIT); 
+
+    pushTransform();
+    
+    transform.translate(0,0);  
+    transform.scale(-0.60); 
+    
+        gl.uniform3f( u_color_loc, 255, 0, 0);
+        gl.uniform1f(u_alpha_loc, 0.6);
+        transform.translate(0.3,0);
+        transform.rotate(framenumber / 150);
+        filledCircle();
+
+        gl.uniform3f( u_color_loc, 255, 255,0);
+        gl.uniform1f(u_alpha_loc, 0.6);
+        transform.translate(0.3,0);
+        transform.rotate(framenumber / 150);
+        filledCircle();
+		
+		gl.uniform3f( u_color_loc, 0, 255,0);
+        gl.uniform1f(u_alpha_loc, 0.6);
+        transform.translate(0.3,0);
+        transform.rotate(framenumber / 150);
+        filledCircle();
+		
+        gl.uniform3f( u_color_loc, 0, 0, 255);
+        gl.uniform1f(u_alpha_loc, 0.6);
+        transform.translate(0.3,0);
+        transform.rotate(framenumber / 150);
+        filledCircle();
+    
+		gl.uniform3f( u_color_loc, 128, 0, 128);
+        gl.uniform1f(u_alpha_loc, 0.6);
+        transform.translate(0.3,0);
+        transform.rotate(framenumber / 150);
+        filledCircle();
+	
+    popTransform();
+   
+}
+
+/**
+ * Creates a program for use in the WebGL context gl, and returns the
+ * identifier for that program.  If an error occurs while compiling or
+ * linking the program, an exception of type String is thrown.  The error
+ * string contains the compilation or linking error.  If no error occurs,
+ * the program identifier is the return value of the function.
+ */
+function createProgram(gl, vertexShaderSource, fragmentShaderSource) {
+   var vsh = gl.createShader( gl.VERTEX_SHADER );
+   gl.shaderSource( vsh, vertexShaderSource );
+   gl.compileShader( vsh );
+   if ( ! gl.getShaderParameter(vsh, gl.COMPILE_STATUS) ) {
+      throw "Error in vertex shader:  " + gl.getShaderInfoLog(vsh);
+   }
+   var fsh = gl.createShader( gl.FRAGMENT_SHADER );
+   gl.shaderSource( fsh, fragmentShaderSource );
+   gl.compileShader( fsh );
+   if ( ! gl.getShaderParameter(fsh, gl.COMPILE_STATUS) ) {
+      throw "Error in fragment shader:  " + gl.getShaderInfoLog(fsh);
+   }
+   var prog = gl.createProgram();
+   gl.attachShader( prog, vsh );
+   gl.attachShader( prog, fsh );
+   gl.linkProgram( prog );
+   if ( ! gl.getProgramParameter( prog, gl.LINK_STATUS) ) {
+      throw "Link error in program:  " + gl.getProgramInfoLog(prog);
+   }
+   return prog;
+}
+
+/**
+ * Initialize the WebGL graphics context, including creating and filling the
+ * VBOs that hold the coordinates for vertices of basic objects.
+ */
+function initGL() {
+    var prog = createProgram( gl, vertexShaderSource, fragmentShaderSource );
+    gl.useProgram(prog);
+    a_coords_loc = gl.getAttribLocation(prog, "a_coords");
+    gl.enableVertexAttribArray(a_coords_loc); 
+    u_color_loc = gl.getUniformLocation(prog, "u_color");
+    u_alpha_loc = gl.getUniformLocation(prog, "u_alpha");
+    u_transform_loc = gl.getUniformLocation(prog, "u_transform");
+    diskCoordsVBO = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, diskCoordsVBO);
+    var circleCoords = new Float32Array( 64 );
+    for (var i = 0; i < 32; i++) {
+        var angle = (2*Math.PI)/32 * i;
+        circleCoords[2*i] = 0.5 * Math.cos(angle);
+        circleCoords[2*i+1] = 0.5 * Math.sin(angle);
+    }
+    gl.bufferData(gl.ARRAY_BUFFER, circleCoords, gl.STATIC_DRAW);
+    gl.lineWidth(2);
+    gl.disable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+}
+
+
+/*--------------------------- animation support ----------------------------------*/
+
+function doFrame() {  
+    if (animating) {
+        framenumber++;
+        draw();
+        requestAnimationFrame(doFrame); 
+    }
+}
+
+function startAnimation() {
+    if (!animating) {
+       animating = true;
+       requestAnimationFrame(doFrame);
+    }
+}
+
+function pauseAnimation() {
+    animating = false;
+}
+
+function doAnimationCheckbox() { 
+    if ( document.getElementById("animationCheckbox").checked )
+        startAnimation();
+    else
+        pauseAnimation();
+}
+
+
+/*--------------------------- initialization ----------------------------------*/
+
+/**
+ * Initialize the program.  This function is called after the page has been loaded.
+ */
+function init() {
+    try {
+        var canvas = document.getElementById("webglcanvas");
+        var options = {  // no need for alpha channel or depth buffer in this program
+            alpha: false,
+            depth: false
+        };
+        gl = canvas.getContext("webgl", options) || 
+                         canvas.getContext("experimental-webgl", options);
+        if ( ! gl ) {
+            throw "Browser does not support WebGL";
+        }
+    }
+    catch (e) {
+        document.getElementById("canvas-holder").innerHTML =
+            "<p>Sorry, could not get a WebGL graphics context.</p>";
+        return;
+    }
+    try {
+        initGL();  // initialize the WebGL graphics context
+    }
+    catch (e) {
+        document.getElementById("canvas-holder").innerHTML =
+            "<p>Sorry, could not initialize the WebGL graphics context:" + e + "</p>";
+        return;
+    }
+    document.getElementById("animationCheckbox").checked = false;
+    document.getElementById("animationCheckbox").onchange = doAnimationCheckbox;
+    
+    draw();    // draw the image
+}
+
+</script>
+</head>
+<body onload="init()" style="background-color: lightGray">
+
+<h2>CMSC 405: Week 7 Discussion</h2>
+
+<noscript><p><b>Sorry, but this page requires JavaScript.</b></p></noscript>
+
+<h2><label><input type="checkbox" id="animationCheckbox"><b>Animate</b></label></h2>
+
+<div id="canvas-holder">
+<canvas id="webglcanvas" width="600" height="600"></canvas>
+</div>
+
+</body>
+</html>

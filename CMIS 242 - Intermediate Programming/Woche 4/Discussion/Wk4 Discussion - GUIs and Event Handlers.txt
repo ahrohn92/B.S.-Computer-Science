@@ -1,0 +1,3 @@
+Hello class,
+For this week's discussion I created a simple GUI program that prompts the user to input a value for the radius of a circle and returns the circumference and area.
+Here is picture of the output:

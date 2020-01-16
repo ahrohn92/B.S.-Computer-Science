@@ -1,0 +1,3 @@
+Content Depth: Thank you for your answers. The answers are well done, except the answer for questions 3 and 4. ( not complete minimized)
+The answer for question 3 is F=  y’+z
+The answer for question 4 is F= x+y’z+yz’

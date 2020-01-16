@@ -1,0 +1,6 @@
+Readings for this week are:
+PDF textbooks are found in the course resources -> PDF Textbooks content area and include:
+1. Mogensen, Torben Ægidius, Basics of Compiler Design, University of Copenhagen, 2010
+2. Niemann, Tom, Lex and Yacc Tutorial,  epapaerpress.com
+This week you should read:
+Mogensen, Chapter 4

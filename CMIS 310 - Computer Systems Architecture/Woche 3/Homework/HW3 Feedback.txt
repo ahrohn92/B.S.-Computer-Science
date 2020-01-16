@@ -1,0 +1,10 @@
+Content Depth:
+Thank you for your answers.
+The answers are well done, except question #4
+ 
+Take care,
+binary 0111 (hex 7) is the opcode for “HALT”; terminates the program
+it is not correct
+0111 represent the address
+STORE 7
+Similar for the next instructions

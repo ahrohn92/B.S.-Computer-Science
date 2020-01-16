@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!-- CNShome.php -->
+<!-- Jan 22, XXXX -->
+<html>
+<head>
+  <title>Computer Security Home Page </title>
+</head>
+<body>
+<h1>Welcome to Computer Security Consultants! </h1>
+<p>
+<?php
+    echo "Hello, SDEV 300 students and class!</br>";
+    echo "The current time is " . date("g:i:h a"); 
+?>
+<!-- Add Table of Hyperlinks -->
+<p>
+Click on any link in the table below to see some of our current customers:
+</p>
+<table border = "1"> 
+<tr><td>Site</td><td>Web Address</td></tr>
+<tr><td>UMUC</td><td><a href="http://umuc.edu">UMUC</a></td></tr>
+<tr><td>Oracle</td><td><a href="http://oracle.com">Oracle</a></td></tr>
+<tr><td>Microsoft</td><td><a href="http://www.
+microsoft.com">Microsoft</a></td></tr>
+<tr><td>Twitter</td><td><a href="http://www.
+twitter.com">Twitter</a></td></tr>
+</table>
+
+<!-- Add some images in a table -->
+<p> 
+Check out our latest Mars photos:
+</p>
+<table>
+<tr><td>Description</td><td>Photo</td></tr>
+<tr><td>Mars Near Darwin</td><td><img src="http://mars.jpl.nasa.gov/msl/images/mars-curiosity-rover-mount-sharp-pia19083-Sol387-br2.jpg" width="300"
+height="150"/></td></tr>
+<tr><td>Mars Parhump Hills</td><td><img src="http://mars.jpl.nasa.gov/msl/images/mars-curiosity-rover-pahrump-hills-rock-outcrop-pia19075-br2.jpg" width="300"
+height="150"/></td></tr>
+</table>
+
+<p>
+We offer the following products:
+<ul>
+<li>Security Consulting </li>
+<li>Apache security monitoring</li>
+<li>Software Penetration Testing</li>
+<li>Threat Modeling and Risk Managements </li>
+</ul>
+</p>
+
+<!-- Add a Form -->
+<p> Tell us about yourself and what you are interested in doing:
+<form action="" method="post">
+Name: <input type="text" name="username"></br>
+E-Mail: <input type="text" name="e-mail"><br/>
+Interest: <select name="sport">
+<option>Apache Security Monitoring</option>
+<option>Security Consulting</option>
+<option>Software Penetration Testing</option>
+<option>Threat Modeling and Risk Management</option>
+</select>
+<br/><br/>
+
+<input type="submit" value="Click to Submit"/>
+<input type="reset" value="Reset"/>
+</form>
+</p>
+
+
+</body>
+</html>

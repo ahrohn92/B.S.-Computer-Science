@@ -1,0 +1,1 @@
+I re-submitted this assignment because in my first submission I used an XOR logic gate in the circuit diagram for problem 4. In my revised homework, I replaced the XOR logic gate with two NOTs, two ANDs, and an OR logic gate. I know in other problems it states to use only NOT, AND, OR logic gates. So, I'm not sure which you wanted.

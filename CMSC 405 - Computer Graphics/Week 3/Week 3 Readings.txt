@@ -1,0 +1,5 @@
+You should complete the following Computer Graphics textbook reading for this week:
+Chapter 2.6 HTML Canvas Graphics
+Chapter 2.7 SVG: A scene description language
+
+Note: See Course Resources -> CMSC405_TextbookReadings for links to chapters in the book

@@ -1,0 +1,10 @@
+You should complete the following Computer Graphics textbook reading for this week:
+Chapter 3.0 OpenGL 1.1: Geometry
+Chapter 3.1 Shapes and Colors in OpenGL 1.1
+Chapter 3.2 3D Coordinates and Transforms
+Chapter 3.3 Projection and Viewing
+Chapter 3.4 Polygonal Meshes and glDrawArrays
+Chapter 3.5 Some Linear Algebra
+Chapter 3.6 Using GLUT and JOGL
+
+Note: See Course Resources -> CMSC405_TextbookReadings for links to chapters in the book

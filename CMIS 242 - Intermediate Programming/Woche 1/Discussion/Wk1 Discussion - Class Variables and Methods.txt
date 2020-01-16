@@ -1,0 +1,48 @@
+Class (static) variables and methods are associated with a class, just like instance variables. However, they differ in that will an instance variable every instance of that class (object) had it's own copy of that variable. If changes are made to the variable in one class, they are not reflected in other instances. With class variables, the variables are static, in that there is only one copy of that variable and any changes made to that variable are reflected in all instance of that class. 
+
+EXAMPLE OF CLASS VARIABLE:
+public class Main {
+public static void main(String[] args) {
+Serial productOne = new Serial();
+productOne.setSerialNum(02468);
+Serial productTwo = new Serial();
+productTwo.setSerialNum(13579);
+System.out.println(productOne.getSerialNum());
+System.out.println(productTwo.getSerialNum());
+}
+}
+public class Serial {
+public static int SerialNum;
+public int getSerialNum() {
+return SerialNum;
+}
+public void setSerialNum(int value){
+SerialNum = value;
+}
+}
+
+With this, the expected output would be:
+13579, 13579
+The value SerialNum has been altered for all instances of the class.
+
+
+EXAMPLE OF INSTANCE VARIABLE:
+public class Main {
+public static void main(String[] args) {
+Serial productOne = new Serial();
+productOne.SerialNum = 02468;
+Serial productTwo = new Serial();
+productTwo.SerialNum =13579;
+System.out.println(productOne.SerialNum);
+System.out.println(productTwo.SerialNum);
+}
+}
+public class Serial {
+public int SerialNum;
+}
+
+With this, the expected output would be:
+02468, 13579
+The value SerialNum has been altered for only one instance of the class.
+
+For this example, we would want to use an instance variable so that we can call a different value for SerialNum for different classes.

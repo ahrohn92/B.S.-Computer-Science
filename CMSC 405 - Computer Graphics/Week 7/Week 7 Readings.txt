@@ -1,0 +1,9 @@
+You should complete the following Computer Graphics textbook reading for this week:
+Chapter 6 Introduction to WebGL
+Chapter 6.1 The Programmable Pipeline
+Chapter 6.2 First Examples
+Chapter 6.3 GLSL
+Chapter 6.4 Image Textures
+Chapter 6.5 Implementing 2D Transforms
+
+Note: See Course Resources -> CMSC405_TextbookReadings for links to chapters in the book

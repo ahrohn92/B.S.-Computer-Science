@@ -1,0 +1,13 @@
+WkD8-Embedded Systems
+
+
+Previous 
+ 
+Next
+ 
+
+
+Embedded Systems
+
+Discuss any experiences you have had with embedded systems.
+What reasons would you consider when selecting between SpecC and SystemC?

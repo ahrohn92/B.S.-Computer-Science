@@ -1,0 +1,7 @@
+You should complete the following Computer Graphics textbook reading for this week:
+Chapter 4.0 OpenGL 1.1: Light and Material
+Chapter 4.1 Introduction to Lighting
+Chapter 4.2 Light and Material in OpenGL 1.1
+Chapter 4.3 Image Textures
+Chapter 4.4 Lights, Camera, Action
+Note: See Course Resources -> CMSC405_TextbookReadings for links to chapters in the book

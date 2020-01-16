@@ -1,0 +1,7 @@
+You should complete the following Computer Graphics textbook reading for this week:
+Chapter 5.0 Three.js: A 3D Scene Graph API
+Chapter 5.1 Three.js Basics
+Chapter 5.2 Building Objects
+Chapter 5.3 Other Features
+
+Note: See Course Resources -> CMSC405_TextbookReadings for links to chapters in the book
